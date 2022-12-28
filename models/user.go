@@ -1,17 +1,16 @@
 package models
 
 import (
-	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
 
 type User struct {
 	gorm.Model
-	ID          uuid.UUID     `gorm:"primaryKey"`
-	Hash        string        `gorm:"hash"`
-	Email       string        `gorm:"email"`
-	Name        string        `gorm:"name"`
-	Sername     string        `gorm:"sername"`
+	ID          uint          `json:"id" gorm:"primaryKey"`
+	Hash        string        `json:"hash" gorm:"hash"`
+	Email       string        `json:"email" gorm:"email"`
+	Name        string        `json:"name" gorm:"name"`
+	Sername     string        `json:"sername" gorm:"sername"`
 	PhoneNumber []PhoneNumber `gorm:"foreignKey:UserID; constraint:OnDelete:CASCADE;" json:"-"`
 	Address     []Address     `gorm:"foreignKey:UserID; constraint:OnDelete:CASCADE;" json:"-"`
 }

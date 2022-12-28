@@ -3,17 +3,17 @@ package database
 import (
 	"fmt"
 	"log"
-	"wiaoj/authorization/config"
-	"wiaoj/authorization/models"
+	"proxolab-ecommerce-authorization/models"
 
 	_ "github.com/lib/pq"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+	"honnef.co/go/tools/config"
 )
 
 func Init() *gorm.DB {
 	// Connect to database
-	dsn := config.GetPostgresDSN()
+	dsn := fmt.Sprintf("host=%s user=%s password=%s port=%s", config.Config("DBHost"), config.Config("DBUsername"), config.Config("DBUserPassword"), config.Config("DBPort"))
 	DB, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		log.Fatal(err)
@@ -27,14 +27,14 @@ func Init() *gorm.DB {
 		panic(err)
 	}
 
-	dsn = config.GetPostgresDSN()
+	dsn = fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s", config.Config("DBHost"), config.Config("DBUsername"), config.Config("DBUserPassword"), config.Config("DBName"), config.Config("DBPort"))
 	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	// Migrate tables
-	DB.AutoMigrate(&models.User{}, &models.PhoneNumber{}, &models.Address{}, &models.UserClaim{})
+	DB.AutoMigrate(&models.User{}, &models.Admin{})
 
 	// Create Super User
 	var user = &models.User{
@@ -46,7 +46,7 @@ func Init() *gorm.DB {
 		fmt.Println("Couldn't create super user")
 	}
 
-	var admin = &models.UserClaim{
+	var admin = &models.Admin{
 		UserID:      user.ID,
 		AccessLevel: 1,
 	}
