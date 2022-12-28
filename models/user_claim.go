@@ -5,9 +5,9 @@ import (
 	"gorm.io/gorm"
 )
 
-type PhoneNumber struct {
+type UserClaim struct {
 	gorm.Model
-	UserID      uuid.UUID `gorm:"user_id"`
 	ID          uuid.UUID `gorm:"primaryKey"`
-	PhoneNumber string    `gorm:"phone_number"`
+	UserID      uuid.UUID `gorm:"primaryKey"`
+	AccessLevel int       `gorm:"access_level;default:0"`
 }
