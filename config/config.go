@@ -15,3 +15,11 @@ func GetPostgresDSN() string {
 
 	return fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=%s", HOST, USER, PASSWORD, DATABASE_NAME, PORT, SSL_MODE)
 }
+
+func GetJwtSecretKey() string {
+	return os.Getenv("JWT_SECRET_KEY")
+}
+
+func GetJwtExpirationMinutes() string {
+	return os.Getenv("JWT_EXPIRATION_MINUTES")
+}
