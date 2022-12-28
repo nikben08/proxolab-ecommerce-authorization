@@ -13,8 +13,8 @@ type SignupRequest struct {
 	Sername        string `json:"sername"`
 }
 
-type LoginResponse struct {
-}
-
-type SignupResponse struct {
+type AuthResponse struct {
+	Code    int
+	Message string
+	Token   string
 }

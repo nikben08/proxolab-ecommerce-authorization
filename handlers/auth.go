@@ -38,12 +38,14 @@ func (h handler) Login(c *fiber.Ctx) error {
 		}
 
 		token, _ := jwt.GenerateJwtToken(found.ID, found.Email, found.Name, userClaim.AccessLevel)
-		type Response struct {
-			Code    string
-			Message string
-			Token   string
+
+		var response = contracts.AuthResponse{
+			Code:    200,
+			Message: "User successfully logged",
+			Token:   token,
 		}
-		return c.JSON(token)
+
+		return c.JSON(response)
 	} else {
 		return c.JSON("Wrong username or password")
 	}
@@ -75,5 +77,13 @@ func (h handler) Signup(c *fiber.Ctx) error {
 		fmt.Println("error")
 	}
 
-	return c.JSON("signup")
+	token, _ := jwt.GenerateJwtToken(newUser.ID, json.Email, json.Name, 0)
+
+	var response = contracts.AuthResponse{
+		Code:    200,
+		Message: "User successfully created",
+		Token:   token,
+	}
+
+	return c.JSON(response)
 }
